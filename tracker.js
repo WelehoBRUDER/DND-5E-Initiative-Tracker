@@ -51,6 +51,7 @@ function emptyCell() {
 		hp: 0,
 		ac: 0,
 		initiative: Number.MIN_SAFE_INTEGER,
+		notes: "",
 		id: "",
 	};
 }
@@ -101,7 +102,7 @@ function updateTable() {
 		<th>HP</th>
 		<th>AC</th>
 		<th>Resistances</th>
-		<th>Statuses</th>
+		<th>Notes</th>
 		<th></th>
 	</tr>
 	`;
@@ -154,7 +155,9 @@ function createCell(creature) {
 
 		input.addEventListener("input", (e) => {
 			const mod = document.querySelector(`.mod.${id}`);
-			mod.textContent = `${e.target.value}`;
+			if (mod) {
+				mod.textContent = `${e.target.value}`;
+			}
 
 			if (id === "initiative") {
 				const bonus = Math.floor(creature.creature && (creature.creature.dexterity - 10) / 2) || 0;
@@ -224,7 +227,7 @@ function createCell(creature) {
 		{ id: "hp", func: inputFunc, roll: true },
 		{ id: "ac", func: inputFunc },
 		{ id: "resistances", func: inputFunc },
-		{ id: "statuses", func: inputFunc },
+		{ id: "notes", func: inputFunc },
 		{ id: "remove" },
 	];
 	const cell = document.createElement("tr");
@@ -359,5 +362,3 @@ const iconTable = {
 };
 
 updateTable();
-
-/* TÄLLÄ HETKELLÄ KESKEN: STATUS EFEKTIEN MERKKAAMINEN! */

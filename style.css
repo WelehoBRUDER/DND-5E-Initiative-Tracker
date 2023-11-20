@@ -1,4 +1,6 @@
-body {
+body, html{
+  margin:0;
+  padding:0;
   background:rgb(31, 31, 31);
 }
 
@@ -27,6 +29,31 @@ body {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
+main {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+nav#toolbar {
+  width: 100%;
+  height: 6rem;
+  background: rgb(10, 10, 10);
+  position: sticky;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 2rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+nav h1 {
+  font-size: 2.5rem;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
 
 .input {
   width: 100%;
@@ -168,9 +195,12 @@ button.middle-button:hover {
   color: #fff;
 }
 
+tr.cell .cell-item {
+  border: 1px solid rgb(24, 24, 24);
+}
+
 tr.cell.active .cell-item {
-  border: 2px solid white;
-  box-sizing: border-box;
+  border: 1px solid white;
 }
 
 .damage-icon {
