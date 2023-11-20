@@ -247,11 +247,15 @@ function createCell(creature) {
 			if (creature.creature) {
 				resists = getResistances(creature.creature);
 				Object.entries(resists).forEach(([res, key]) => {
-					console.log(res, key);
 					const icon = document.createElement("img");
 					icon.src = iconTable[res];
 					icon.classList.add("damage-icon");
 					icon.classList.add(key.value);
+					if (key.hover) {
+						icon.title = key.hover;
+					} else {
+						icon.title = `${res} ${key.value}`;
+					}
 					cellItem.append(icon);
 				});
 			}
@@ -319,6 +323,10 @@ function getResistances(creature) {
 		keywords.forEach((keyword) => {
 			if (resistance.toLowerCase().includes(keyword)) {
 				result[keyword] = { value: "resistance" };
+				if (resistance.toLowerCase().includes("nonmagical attacks")) result[keyword].hover = "Resistance to nonmagical attacks";
+				if (resistance.toLowerCase().includes("nonmagical damage")) result[keyword].hover = "Resistance to nonmagical damage";
+				if (resistance.toLowerCase().includes("nonmagical weapons")) result[keyword].hover = "Resistance to nonmagical weapons";
+				if (resistance.toLowerCase().includes("silvered")) result[keyword].hover = "Resistance to non-silvered weapons";
 			}
 		});
 	});
@@ -326,10 +334,13 @@ function getResistances(creature) {
 		keywords.forEach((keyword) => {
 			if (immunity.toLowerCase().includes(keyword)) {
 				result[keyword] = { value: "immunity" };
+				if (immunity.toLowerCase().includes("nonmagical attacks")) result[keyword].hover = "Immunity to nonmagical attacks";
+				if (immunity.toLowerCase().includes("nonmagical damage")) result[keyword].hover = "Immunity to nonmagical damage";
+				if (immunity.toLowerCase().includes("nonmagical weapons")) result[keyword].hover = "Immunity to nonmagical weapons";
+				if (immunity.toLowerCase().includes("silvered")) result[keyword].hover = "Immunity to non-silvered weapons";
 			}
 		});
 	});
-	console.log(result);
 	return result;
 }
 
