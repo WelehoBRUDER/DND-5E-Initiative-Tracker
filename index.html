@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>D&D 5e Initiative tracker</title>
+</head>
+
+<body>
+  <main id="tracker">
+    <div id="center">
+      <div id="table-container">
+        <table id="table">
+        </table>
+        <div id="search-list">
+          <ul id="search-results"></ul>
+        </div>
+      </div>
+      <div id="buttons">
+        <div class="left">
+          <button class="middle-button" onclick="advanceTurn()">Next</button>
+          <button class="middle-button" onclick="sortTable()">Sort</button>
+          <button class="middle-button" onclick="clearTable()">Clear</button>
+        </div>
+        <div class="right">
+          <p class="turn-counter">Round 1</p>
+          <button class="middle-button" onclick="resetTurns()">Reset Turns</button>
+          <button class="middle-button" onclick="addCreature()">Add</button>
+        </div>
+      </div>
+  </main>
+  <a href="https://www.flaticon.com/free-icons/link" id="icon-credit" title="link icons">Link icons created by th
+    studio -
+    Flaticon</a>
+  </div>
+</body>
+
+</html>
+
+<script src="tracker.js"></script>

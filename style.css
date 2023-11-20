@@ -1,0 +1,214 @@
+body {
+  background:rgb(31, 31, 31);
+}
+
+* {
+  scrollbar-width: 1rem;
+  scrollbar-color: #131212 #000000;
+}
+
+::-webkit-scrollbar {
+  width: 1rem;
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #131212;
+}
+
+#center {
+  width: 90%;
+  margin: 0 auto;
+  position: relative;
+}
+
+* {
+  color: white;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+
+.input {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  border: 1px solid #242222;
+  background: rgb(17, 17, 17);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.input.initiative {
+  color: rgba(255,255,255,0);
+}
+
+.input.initiative .mod {
+  color: white;
+}
+
+ .mod {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  font-size: 1rem;
+  font-weight: lighter;
+}
+
+
+.remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+  background: rgb(94, 6, 6);
+  border: none;
+  width: 100%;
+  height: 100%;
+}
+
+.remove:hover {
+  background: rgb(66, 14, 14);
+}
+
+.remove > img {
+  width: 2rem;
+  height: 2rem;
+}
+
+#search-list {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #d3d3d3;
+  background: rgb(24, 24, 24);
+  box-sizing: border-box;
+  display: none;
+  z-index: 2;
+  max-height: 50vh;
+}
+
+#search-results  {
+  width: 100%;
+  overflow: hidden;
+  overflow-y: auto;
+  list-style: none;
+  font-size: 1.25rem;
+  padding: 1rem;
+} 
+
+#search-results li {
+  width: 100%;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 1rem;
+  cursor: pointer;
+  border-bottom: 1px solid #d3d3d3;
+}
+
+#search-results li:hover {
+  background: rgb(48, 48, 48);
+}
+
+table {
+  width: 100%;
+  background: rgb(92, 92, 92);
+}
+
+th {
+  position: relative;
+  height: 3rem;
+  font-size:  1.25rem;
+  padding: 0;
+  margin: 0;
+  background: rgb(24, 24, 24);
+}
+
+th > button.roll, th.cell-item > a {
+  position:  absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 1.5rem;
+  background: none;
+  border: none;
+}
+
+th.cell-item:hover img {
+  opacity: 1;
+}
+
+button.roll img, a img {
+  transition: opacity 0.2s ease-in-out;
+  width: 1.5rem;
+  height :1.5rem;
+  cursor: pointer;
+  opacity: 0;
+}
+
+button.middle-button {
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  background: none;
+  border: 5px solid #000;
+}
+
+button.middle-button:hover {
+  background: #000;
+  color: #fff;
+}
+
+tr.cell.active .cell-item {
+  border: 2px solid white;
+  box-sizing: border-box;
+}
+
+.damage-icon {
+  width: 3rem;
+  height: 3rem;
+}
+
+.vulnerability {
+  filter: drop-shadow(0 0 3px rgb(255, 17, 17)) brightness(0.9); 
+}
+
+.immunity {
+  filter: drop-shadow(0 0 3px rgb(255, 255, 255)) brightness(1.25);
+}
+
+#buttons {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  margin-top: 1rem;
+}
+
+#buttons .left, #buttons .right {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+#buttons .right {
+  justify-content: flex-end;
+}
+
+#icon-credit {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+}
