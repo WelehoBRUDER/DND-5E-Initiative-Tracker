@@ -198,7 +198,7 @@ function createCell(creature) {
 		const icon = document.createElement("img");
 		roll.id = id;
 		roll.classList.add("roll");
-		icon.src = "../img/dice-twenty-faces-twenty.png";
+		icon.src = "img/dice-twenty-faces-twenty.png";
 		if (id === "hp" && creature.creature) {
 			roll.addEventListener("click", () => {
 				const hitDice = creature.creature.hit_points_roll;
@@ -241,7 +241,7 @@ function createCell(creature) {
 			const copy = document.createElement("button");
 			const icon = document.createElement("img");
 			copy.classList.add("copy");
-			icon.src = "../img/copy.png";
+			icon.src = "img/copy.png";
 			copy.title = "Copy this creature";
 			copy.addEventListener("click", () => {
 				creatureTable.push({ ...creature, id: Math.random().toString(36).substring(2, 9), initiative: Number.MIN_SAFE_INTEGER });
@@ -253,7 +253,7 @@ function createCell(creature) {
 			const remove = document.createElement("button");
 			const icon = document.createElement("img");
 			remove.classList.add("remove");
-			icon.src = "../img/trash-can.png";
+			icon.src = "img/trash-can.png";
 			remove.title = "Remove this creature";
 			remove.addEventListener("click", () => {
 				creatureTable = creatureTable.filter((c) => c.id !== creature.id);
@@ -298,7 +298,7 @@ function createCell(creature) {
 				const icon = document.createElement("img");
 				link.href = `https://www.dndbeyond.com/monsters/${creature.creature.index}`;
 				link.target = "_blank";
-				icon.src = "../img/link.png";
+				icon.src = "img/link.png";
 				link.append(icon);
 				cellItem.append(link);
 			}
@@ -364,17 +364,17 @@ function initiativeBonus(creature) {
 }
 
 const iconTable = {
-	slashing: "./img/slash_resist.png",
-	bludgeoning: "./img/crush_resist.png",
-	piercing: "./img/pierce_resist.png",
-	lightning: "./img/shock_resist.png.png",
-	fire: "./img/fire_resist.png",
-	cold: "./img/ice_resist.png",
-	poison: "./img/poison_resist.png",
-	acid: "./img/acid_resist.png",
-	radiant: "./img/divine_resist.png",
-	necrotic: "./img/dark_resist.png",
-	psychic: "./img/psychic_resist.png",
+	slashing: "img/slash_resist.png",
+	bludgeoning: "img/crush_resist.png",
+	piercing: "img/pierce_resist.png",
+	lightning: "img/shock_resist.png.png",
+	fire: "img/fire_resist.png",
+	cold: "img/ice_resist.png",
+	poison: "img/poison_resist.png",
+	acid: "img/acid_resist.png",
+	radiant: "img/divine_resist.png",
+	necrotic: "img/dark_resist.png",
+	psychic: "img/psychic_resist.png",
 };
 
 updateTable();
