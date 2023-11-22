@@ -104,6 +104,7 @@ function updateTable() {
 		<th>Resistances</th>
 		<th>Notes</th>
 		<th></th>
+		<th></th>
 	</tr>
 	`;
 	creatureTable.forEach((creature, index) => {
@@ -160,7 +161,7 @@ function createCell(creature) {
 			}
 
 			if (id === "initiative") {
-				const bonus = Math.floor(creature.creature && (creature.creature.dexterity - 10) / 2) || 0;
+				const bonus = initiativeBonus(creature);
 				if (bonus) {
 					mod.textContent += ` (${bonus > 0 ? "+" : "-"}${bonus})`;
 				}
@@ -197,7 +198,7 @@ function createCell(creature) {
 		const icon = document.createElement("img");
 		roll.id = id;
 		roll.classList.add("roll");
-		icon.src = "./img/dice-twenty-faces-twenty.png";
+		icon.src = "../img/dice-twenty-faces-twenty.png";
 		if (id === "hp" && creature.creature) {
 			roll.addEventListener("click", () => {
 				const hitDice = creature.creature.hit_points_roll;
@@ -207,7 +208,7 @@ function createCell(creature) {
 		} else if (id === "initiative") {
 			roll.addEventListener("click", () => {
 				const mod = document.querySelector(`.mod.${id}.${modId}`);
-				const bonus = Math.floor(creature.creature && (creature.creature.dexterity - 10) / 2) || 0;
+				const bonus = initiativeBonus(creature);
 
 				input.value = Math.floor(Math.random() * 20) + 1 + bonus;
 				mod.textContent = `${input.value}`;
@@ -228,6 +229,7 @@ function createCell(creature) {
 		{ id: "ac", func: inputFunc },
 		{ id: "resistances", func: inputFunc },
 		{ id: "notes", func: inputFunc },
+		{ id: "copy" },
 		{ id: "remove" },
 	];
 	const cell = document.createElement("tr");
@@ -235,11 +237,24 @@ function createCell(creature) {
 	items.forEach((item) => {
 		const cellItem = document.createElement("th");
 		cellItem.classList.add("cell-item");
-		if (item.id === "remove") {
+		if (item.id === "copy") {
+			const copy = document.createElement("button");
+			const icon = document.createElement("img");
+			copy.classList.add("copy");
+			icon.src = "../img/copy.png";
+			copy.title = "Copy this creature";
+			copy.addEventListener("click", () => {
+				creatureTable.push({ ...creature, id: Math.random().toString(36).substring(2, 9), initiative: Number.MIN_SAFE_INTEGER });
+				updateTable();
+			});
+			copy.append(icon);
+			cellItem.append(copy);
+		} else if (item.id === "remove") {
 			const remove = document.createElement("button");
 			const icon = document.createElement("img");
 			remove.classList.add("remove");
-			icon.src = "./img/trash-can.png";
+			icon.src = "../img/trash-can.png";
+			remove.title = "Remove this creature";
 			remove.addEventListener("click", () => {
 				creatureTable = creatureTable.filter((c) => c.id !== creature.id);
 				updateTable();
@@ -254,11 +269,7 @@ function createCell(creature) {
 					icon.src = iconTable[res];
 					icon.classList.add("damage-icon");
 					icon.classList.add(key.value);
-					if (key.hover) {
-						icon.title = key.hover;
-					} else {
-						icon.title = `${res} ${key.value}`;
-					}
+					icon.title = `${res} ${key.hover ? key.hover : key.value}`;
 					cellItem.append(icon);
 				});
 			}
@@ -287,7 +298,7 @@ function createCell(creature) {
 				const icon = document.createElement("img");
 				link.href = `https://www.dndbeyond.com/monsters/${creature.creature.index}`;
 				link.target = "_blank";
-				icon.src = "./img/link.png";
+				icon.src = "../img/link.png";
 				link.append(icon);
 				cellItem.append(link);
 			}
@@ -326,10 +337,10 @@ function getResistances(creature) {
 		keywords.forEach((keyword) => {
 			if (resistance.toLowerCase().includes(keyword)) {
 				result[keyword] = { value: "resistance" };
-				if (resistance.toLowerCase().includes("nonmagical attacks")) result[keyword].hover = "Resistance to nonmagical attacks";
-				if (resistance.toLowerCase().includes("nonmagical damage")) result[keyword].hover = "Resistance to nonmagical damage";
-				if (resistance.toLowerCase().includes("nonmagical weapons")) result[keyword].hover = "Resistance to nonmagical weapons";
-				if (resistance.toLowerCase().includes("silvered")) result[keyword].hover = "Resistance to non-silvered weapons";
+				if (resistance.toLowerCase().includes("nonmagical attacks")) result[keyword].hover = "resistance to nonmagical attacks";
+				if (resistance.toLowerCase().includes("nonmagical damage")) result[keyword].hover = "resistance to nonmagical damage";
+				if (resistance.toLowerCase().includes("nonmagical weapons")) result[keyword].hover = "resistance to nonmagical weapons";
+				if (resistance.toLowerCase().includes("silvered")) result[keyword].hover = "resistance to non-silvered weapons";
 			}
 		});
 	});
@@ -337,28 +348,33 @@ function getResistances(creature) {
 		keywords.forEach((keyword) => {
 			if (immunity.toLowerCase().includes(keyword)) {
 				result[keyword] = { value: "immunity" };
-				if (immunity.toLowerCase().includes("nonmagical attacks")) result[keyword].hover = "Immunity to nonmagical attacks";
-				if (immunity.toLowerCase().includes("nonmagical damage")) result[keyword].hover = "Immunity to nonmagical damage";
-				if (immunity.toLowerCase().includes("nonmagical weapons")) result[keyword].hover = "Immunity to nonmagical weapons";
-				if (immunity.toLowerCase().includes("silvered")) result[keyword].hover = "Immunity to non-silvered weapons";
+				if (immunity.toLowerCase().includes("nonmagical attacks")) result[keyword].hover = "immunity to nonmagical attacks";
+				if (immunity.toLowerCase().includes("nonmagical damage")) result[keyword].hover = "immunity to nonmagical damage";
+				if (immunity.toLowerCase().includes("nonmagical weapons")) result[keyword].hover = "immunity to nonmagical weapons";
+				if (immunity.toLowerCase().includes("silvered")) result[keyword].hover = "immunity to non-silvered weapons";
 			}
 		});
 	});
 	return result;
 }
 
+function initiativeBonus(creature) {
+	if (!creature?.creature?.dexterity) return 0;
+	return Math.floor((creature.creature.dexterity - 10) / 2);
+}
+
 const iconTable = {
-	slashing: "/img/slash_resist.png",
-	bludgeoning: "/img/crush_resist.png",
-	piercing: "/img/pierce_resist.png",
-	lightning: "/img/shock_resist.png.png",
-	fire: "/img/fire_resist.png",
-	cold: "/img/ice_resist.png",
-	poison: "/img/poison_resist.png",
-	acid: "/img/acid_resist.png",
-	radiant: "/img/divine_resist.png",
-	necrotic: "/img/dark_resist.png",
-	psychic: "/img/psychic_resist.png",
+	slashing: "./img/slash_resist.png",
+	bludgeoning: "./img/crush_resist.png",
+	piercing: "./img/pierce_resist.png",
+	lightning: "./img/shock_resist.png.png",
+	fire: "./img/fire_resist.png",
+	cold: "./img/ice_resist.png",
+	poison: "./img/poison_resist.png",
+	acid: "./img/acid_resist.png",
+	radiant: "./img/divine_resist.png",
+	necrotic: "./img/dark_resist.png",
+	psychic: "./img/psychic_resist.png",
 };
 
 updateTable();

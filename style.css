@@ -87,24 +87,35 @@ nav h1 {
 }
 
 
-.remove {
+.remove, .copy {
   display: flex;
   align-items: center;
   justify-content: center;
   right: 0;
   top: 0;
   cursor: pointer;
-  background: rgb(94, 6, 6);
   border: none;
   width: 100%;
   height: 100%;
+}
+
+.remove {
+  background: rgb(94, 6, 6);
 }
 
 .remove:hover {
   background: rgb(66, 14, 14);
 }
 
-.remove > img {
+.copy {
+  background: rgb(6, 94, 6);
+}
+
+.copy:hover {
+  background: rgb(14, 66, 14);
+}
+
+.remove > img, .copy > img {
   width: 2rem;
   height: 2rem;
 }
