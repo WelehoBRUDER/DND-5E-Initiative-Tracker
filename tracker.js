@@ -147,7 +147,7 @@ function createCell(creature) {
 		return input;
 	}
 
-	function inputFunc(id) {
+	function inputFunc(id, modId) {
 		const input = createInput(id);
 		input.value = creature[id];
 		if (creature[id] === Number.MIN_SAFE_INTEGER) {
@@ -155,7 +155,7 @@ function createCell(creature) {
 		}
 
 		input.addEventListener("input", (e) => {
-			const mod = document.querySelector(`.mod.${id}`);
+			const mod = document.querySelector(`.mod.${id}.${modId}`);
 			if (mod) {
 				mod.textContent = `${e.target.value}`;
 			}
@@ -274,7 +274,7 @@ function createCell(creature) {
 				});
 			}
 		} else {
-			const input = item.func(item.id);
+			const input = item.func(item.id, "m" + creature.id);
 			cellItem.append(input);
 			if (item.id === "initiative") {
 				const mod = document.createElement("p");
