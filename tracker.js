@@ -4,10 +4,17 @@ const searchResults = tracker.querySelector("#search-results");
 const center = tracker.querySelector("#center");
 const entityTable = center.querySelector("#table");
 const turnCounter = center.querySelector(".turn-counter");
+const addSubtract = center.querySelector("#add-subtract");
+const numberInput = addSubtract.querySelector("#number-input");
 
 const combat = {
 	turn: 0,
 	round: 1,
+};
+
+const currentCreature = {
+	id: "",
+	attribute: "",
 };
 
 function advanceTurn() {
@@ -125,6 +132,18 @@ function clearTable() {
 	updateTable();
 }
 
+function placeAddSubtract(e) {
+	addSubtract.style.display = "flex";
+	const place = e.target.getBoundingClientRect();
+	addSubtract.style.top = `${place.height - 12}px`;
+	e.target.parentElement.append(addSubtract);
+}
+
+function removeAddSubtract() {
+	addSubtract.style.display = "none";
+	numberInput.value = "1";
+}
+
 function placeSearchList(e) {
 	searchList.style.display = "flex";
 	const place = e.target.getBoundingClientRect();
@@ -136,6 +155,14 @@ function placeSearchList(e) {
 function removeSearchList() {
 	searchList.style.display = "none";
 	searchResults.innerHTML = "";
+}
+
+function modifyCurrentCreature(sub) {
+	const creature = creatureTable.find((c) => c.id === currentCreature.id);
+	const attr = currentCreature.attribute;
+	const value = +numberInput.value;
+	creature[attr] = +creature[attr] + sub * value;
+	updateTable();
 }
 
 function createCell(creature) {
@@ -152,6 +179,15 @@ function createCell(creature) {
 		input.value = creature[id];
 		if (creature[id] === Number.MIN_SAFE_INTEGER) {
 			input.value = "";
+		}
+
+		if (id === "hp" || id === "initiative") {
+			input.type = "number";
+			input.addEventListener("focusin", (e) => {
+				placeAddSubtract(e);
+				currentCreature.id = creature.id;
+				currentCreature.attribute = id;
+			});
 		}
 
 		input.addEventListener("input", (e) => {
@@ -234,6 +270,7 @@ function createCell(creature) {
 	];
 	const cell = document.createElement("tr");
 	cell.classList.add("cell");
+	if (creature.hp <= 0 && creature.name !== "") cell.classList.add("dead");
 	items.forEach((item) => {
 		const cellItem = document.createElement("th");
 		cellItem.classList.add("cell-item");
@@ -293,6 +330,11 @@ function createCell(creature) {
 			}
 			if (item.roll) {
 				cellItem.append(rollButton(input, item.id, "m" + creature.id));
+				cell.addEventListener("focusout", (e) => {
+					if (!e.relatedTarget) {
+						removeAddSubtract();
+					}
+				});
 			} else if (item.id === "name" && creature.creature) {
 				const link = document.createElement("a");
 				const icon = document.createElement("img");
@@ -367,7 +409,7 @@ const iconTable = {
 	slashing: "img/slash_resist.png",
 	bludgeoning: "img/crush_resist.png",
 	piercing: "img/pierce_resist.png",
-	lightning: "img/shock_resist.png.png",
+	lightning: "img/shock_resist.png",
 	fire: "img/fire_resist.png",
 	cold: "img/ice_resist.png",
 	poison: "img/poison_resist.png",

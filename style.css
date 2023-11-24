@@ -22,6 +22,7 @@ body, html{
   width: 90%;
   margin: 0 auto;
   position: relative;
+  padding-bottom: 4rem;
 }
 
 * {
@@ -214,6 +215,10 @@ tr.cell.active .cell-item {
   border: 1px solid white;
 }
 
+tr.cell.dead * {
+  background: rgb(58, 2, 2);
+}
+
 .damage-icon {
   width: 3rem;
   height: 3rem;
@@ -249,7 +254,68 @@ tr.cell.active .cell-item {
 }
 
 #icon-credit {
-  position: absolute;
+  position: fixed;
   left: 10px;
   bottom: 10px;
+  font-size: 0.75rem;
+}
+
+#add-subtract {
+  width: 80px;
+  height: 3rem;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  margin-top: 1rem;
+  margin-left: 1rem;
+  background: rgba(12, 12, 12, .95);
+  padding: 12px;
+  z-index: 2;
+  border-radius: 8px;
+  box-sizing: inset;
+
+  box-shadow: 0 0 8px 6px rgba(0, 0, 0, 0.5);
+
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+#add-subtract .buttons {
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#add-subtract .plus-minus {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+#number-input {
+  width: 40px;
+  height: 3rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+}
+
+#number-input:focus {
+  outline: none;
+}
+
+
+
+@media only screen and (max-width: 700px) {
+  html {
+    font-size: 62.5%;
+  }
 }
