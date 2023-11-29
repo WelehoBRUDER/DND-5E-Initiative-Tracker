@@ -189,20 +189,6 @@ function createCell(creature) {
 				currentCreature.attribute = id;
 			});
 		}
-
-		input.addEventListener("input", (e) => {
-			const mod = document.querySelector(`.mod.${id}.${modId}`);
-			if (mod) {
-				mod.textContent = `${e.target.value}`;
-			}
-
-			if (id === "initiative") {
-				const bonus = initiativeBonus(creature);
-				if (bonus) {
-					mod.textContent += ` (${bonus > 0 ? "+" : "-"}${bonus})`;
-				}
-			}
-		});
 		input.addEventListener("change", (e) => {
 			creature[id] = e.target.value;
 		});
@@ -244,14 +230,8 @@ function createCell(creature) {
 			});
 		} else if (id === "initiative") {
 			roll.addEventListener("click", () => {
-				const mod = document.querySelector(`.mod.${id}.${modId}`);
 				const bonus = initiativeBonus(creature);
-
 				input.value = Math.floor(Math.random() * 20) + 1 + bonus;
-				mod.textContent = `${input.value}`;
-				if (bonus) {
-					mod.textContent += ` (${bonus > 0 ? "+" : "-"}${bonus})`;
-				}
 				creature.initiative = input.value;
 			});
 		}
@@ -315,19 +295,12 @@ function createCell(creature) {
 			const input = item.func(item.id, "m" + creature.id);
 			cellItem.append(input);
 			if (item.id === "initiative") {
-				const mod = document.createElement("p");
-				mod.classList.add("mod");
-				mod.classList.add(item.id);
-				mod.classList.add("m" + creature.id);
-				mod.textContent = input.value;
 				if (creature.creature) {
 					const bonus = Math.floor((creature.creature.dexterity - 10) / 2);
 					if (bonus) {
-						mod.textContent += ` (${bonus > 0 ? "+" : "-"}${bonus})`;
+						cellItem.setAttribute("data-content", `(${bonus > 0 ? "+" : ""}${bonus})`);
 					}
 				}
-
-				cellItem.append(mod);
 			}
 			if (item.roll) {
 				cellItem.append(rollButton(input, item.id, "m" + creature.id));
@@ -394,8 +367,10 @@ function getResistances(creature) {
 		keywords.forEach((keyword) => {
 			if (resistance.toLowerCase().includes(keyword)) {
 				result[keyword] = { value: "resistance" };
-				if (resistance.toLowerCase().includes("nonmagical")) result[keyword].hover = "resistance to nonmagical damage";
-				if (resistance.toLowerCase().includes("silvered")) result[keyword].hover = "resistance to non-silvered weapons";
+				const resist = resistance.toLowerCase();
+				if (resist.includes("nonmagical")) result[keyword].hover = "resistance to nonmagical attacks";
+				if (resist.includes("silvered")) result[keyword].hover += " that aren't silvered";
+				if (resist.includes("adamantine")) result[keyword].hover += " that aren't adamantine";
 			}
 		});
 	});
@@ -403,8 +378,10 @@ function getResistances(creature) {
 		keywords.forEach((keyword) => {
 			if (immunity.toLowerCase().includes(keyword)) {
 				result[keyword] = { value: "immunity" };
-				if (immunity.toLowerCase().includes("nonmagical")) result[keyword].hover = "immunity to nonmagical damage";
-				if (immunity.toLowerCase().includes("silvered")) result[keyword].hover = "immunity to non-silvered weapons";
+				const immune = immunity.toLowerCase();
+				if (immune.includes("nonmagical")) result[keyword].hover = "immunity to nonmagical attacks";
+				if (immune.includes("silvered")) result[keyword].hover += " that aren't silvered";
+				if (immune.includes("adamantine")) result[keyword].hover += " that aren't adamantine";
 			}
 		});
 	});

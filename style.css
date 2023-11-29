@@ -69,12 +69,18 @@ nav h1 {
   font-size: 1rem;
 }
 
-.input.initiative {
-  color: rgba(255,255,255,0);
-}
 
-.input.initiative .mod {
+.cell-item::after {
+  content: attr(data-content);
   color: white;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: lighter;
+  margin-left: 1rem;
+  margin-top: 0;
+  font-size: 1rem;
 }
 
  .mod {
