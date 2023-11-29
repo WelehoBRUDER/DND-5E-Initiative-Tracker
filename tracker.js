@@ -233,6 +233,7 @@ function createCell(creature) {
 		const roll = document.createElement("button");
 		const icon = document.createElement("img");
 		roll.id = id;
+		roll.title = `Roll ${id}`;
 		roll.classList.add("roll");
 		icon.src = "img/dice-twenty-faces-twenty.png";
 		if (id === "hp" && creature.creature) {
@@ -363,7 +364,21 @@ function rollHP(hitDice) {
 }
 
 function getResistances(creature) {
-	const keywords = ["bludgeoning", "piercing", "slashing", "lightning", "fire", "cold", "poison", "acid", "radiant", "necrotic", "psychic"];
+	const keywords = [
+		"bludgeoning",
+		"piercing",
+		"slashing",
+		"lightning",
+		"force",
+		"thunder",
+		"fire",
+		"cold",
+		"poison",
+		"acid",
+		"radiant",
+		"necrotic",
+		"psychic",
+	];
 	const vulnerabilities = creature.damage_vulnerabilities;
 	const resistances = creature.damage_resistances;
 	const immunities = creature.damage_immunities;
@@ -379,9 +394,7 @@ function getResistances(creature) {
 		keywords.forEach((keyword) => {
 			if (resistance.toLowerCase().includes(keyword)) {
 				result[keyword] = { value: "resistance" };
-				if (resistance.toLowerCase().includes("nonmagical attacks")) result[keyword].hover = "resistance to nonmagical attacks";
-				if (resistance.toLowerCase().includes("nonmagical damage")) result[keyword].hover = "resistance to nonmagical damage";
-				if (resistance.toLowerCase().includes("nonmagical weapons")) result[keyword].hover = "resistance to nonmagical weapons";
+				if (resistance.toLowerCase().includes("nonmagical")) result[keyword].hover = "resistance to nonmagical damage";
 				if (resistance.toLowerCase().includes("silvered")) result[keyword].hover = "resistance to non-silvered weapons";
 			}
 		});
@@ -390,9 +403,7 @@ function getResistances(creature) {
 		keywords.forEach((keyword) => {
 			if (immunity.toLowerCase().includes(keyword)) {
 				result[keyword] = { value: "immunity" };
-				if (immunity.toLowerCase().includes("nonmagical attacks")) result[keyword].hover = "immunity to nonmagical attacks";
-				if (immunity.toLowerCase().includes("nonmagical damage")) result[keyword].hover = "immunity to nonmagical damage";
-				if (immunity.toLowerCase().includes("nonmagical weapons")) result[keyword].hover = "immunity to nonmagical weapons";
+				if (immunity.toLowerCase().includes("nonmagical")) result[keyword].hover = "immunity to nonmagical damage";
 				if (immunity.toLowerCase().includes("silvered")) result[keyword].hover = "immunity to non-silvered weapons";
 			}
 		});
@@ -409,7 +420,9 @@ const iconTable = {
 	slashing: "img/slash_resist.png",
 	bludgeoning: "img/crush_resist.png",
 	piercing: "img/pierce_resist.png",
+	force: "img/force_resist.png",
 	lightning: "img/shock_resist.png",
+	thunder: "img/thunder_resist.png",
 	fire: "img/fire_resist.png",
 	cold: "img/ice_resist.png",
 	poison: "img/poison_resist.png",

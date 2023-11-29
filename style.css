@@ -178,7 +178,7 @@ th > button.roll, th.cell-item > a {
   right: 0.5rem;
   top: 50%;
   transform: translateY(-50%);
-  height: 1.5rem;
+  height: 2rem;
   background: none;
   border: none;
 }
@@ -189,8 +189,8 @@ th.cell-item:hover img {
 
 button.roll img, a img {
   transition: opacity 0.2s ease-in-out;
-  width: 1.5rem;
-  height :1.5rem;
+  width: 2rem;
+  height: 2rem;
   cursor: pointer;
   opacity: 0;
 }
@@ -261,8 +261,8 @@ tr.cell.dead * {
 }
 
 #add-subtract {
-  width: 80px;
-  height: 3rem;
+  width: 115px;
+  height: 4rem;
   display: none;
   align-items: center;
   justify-content: space-between;
@@ -283,7 +283,8 @@ tr.cell.dead * {
 }
 
 #add-subtract .buttons {
-  width: 40px;
+  width: 50%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -294,15 +295,17 @@ tr.cell.dead * {
 #add-subtract .plus-minus {
   background: none;
   border: none;
-  font-size: 1rem;
+  font-size: 1.25rem;
   padding: 0;
   margin: 0;
+  width: 100%;
+  height: 50%;
   cursor: pointer;
 }
 
 #number-input {
-  width: 40px;
-  height: 3rem;
+  width: 50%;
+  height: 4rem;
   background: none;
   border: none;
   font-size: 1.5rem;
