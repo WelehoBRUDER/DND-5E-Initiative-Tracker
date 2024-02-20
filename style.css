@@ -228,13 +228,35 @@ tr.cell.dead * {
 .damage-icon {
   width: 3rem;
   height: 3rem;
+  display: inline-block;
 }
 
-.vulnerability {
+.damage-icon > img {
+  width: 3rem;
+  height: 3rem;
+}
+
+.damage-icon:hover {
+  z-index: 10000;
+  box-shadow: 0 0 8px 8px silver;
+}
+
+.damage-icon:hover:after {
+  position: absolute;
+  content: attr(tooltip);
+  left: 0; 
+  top: 0;
+  height: 3rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  pointer-events: none;
+}
+
+.vulnerability > img {
   filter: drop-shadow(0 0 3px rgb(255, 17, 17)) brightness(0.9); 
 }
 
-.immunity {
+.immunity > img {
   filter: drop-shadow(0 0 3px rgb(255, 255, 255)) brightness(1.25);
 }
 
@@ -260,7 +282,7 @@ tr.cell.dead * {
 }
 
 #icon-credit {
-  position: fixed;
+  position: relative;
   left: 10px;
   bottom: 10px;
   font-size: 0.75rem;
@@ -321,10 +343,45 @@ tr.cell.dead * {
   outline: none;
 }
 
-
+select#desktop-mobile {
+  background: black;
+}
 
 @media only screen and (max-width: 700px) {
   html {
     font-size: 62.5%;
   }
+}
+
+@media only screen and (max-width: 600px) {
+  .cell-item::after {
+    left: 60%;
+  }
+
+  #buttons {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    margin-top: 1rem;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  #search-results  {
+    width: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+    list-style: none;
+    font-size: 0.75rem;
+    padding: 1rem;
+  } 
+
+  .remove > img, .copy > img {
+    width: 1.33rem;
+    height: 1.33rem;
+  }
+
+
 }

@@ -6,6 +6,12 @@ const entityTable = center.querySelector("#table");
 const turnCounter = center.querySelector(".turn-counter");
 const addSubtract = center.querySelector("#add-subtract");
 const numberInput = addSubtract.querySelector("#number-input");
+let mobileView = false;
+
+document.querySelector("#desktop-mobile").addEventListener("change", (e) => {
+	mobileView = e.target.value === "mobile";
+	updateTable();
+});
 
 const combat = {
 	turn: 0,
@@ -108,8 +114,12 @@ function updateTable() {
 		<th>Name</th>
 		<th>HP</th>
 		<th>AC</th>
-		<th>Resistances</th>
-		<th>Notes</th>
+		${
+			!mobileView
+				? `<th>Resistances</th>
+		<th>Notes</th>`
+				: ``
+		}
 		<th></th>
 		<th></th>
 	</tr>
@@ -128,8 +138,11 @@ function addCreature() {
 }
 
 function clearTable() {
-	creatureTable = [emptyCell(), emptyCell(), emptyCell(), emptyCell()];
-	updateTable();
+	const approved = confirm("Are you sure you want to clear the table?");
+	if (approved) {
+		creatureTable = [emptyCell(), emptyCell(), emptyCell(), emptyCell()];
+		updateTable();
+	}
 }
 
 function placeAddSubtract(e) {
@@ -166,6 +179,24 @@ function modifyCurrentCreature(sub) {
 }
 
 function createCell(creature) {
+	const itemsDesktop = [
+		{ id: "initiative", func: inputFunc, roll: true },
+		{ id: "name", func: nameSearch },
+		{ id: "hp", func: inputFunc, roll: true },
+		{ id: "ac", func: inputFunc },
+		{ id: "resistances", func: inputFunc },
+		{ id: "notes", func: inputFunc },
+		{ id: "copy" },
+		{ id: "remove" },
+	];
+	const itemsMobile = [
+		{ id: "initiative", func: inputFunc, roll: true },
+		{ id: "name", func: nameSearch },
+		{ id: "hp", func: inputFunc, roll: true },
+		{ id: "ac", func: inputFunc },
+		{ id: "copy" },
+		{ id: "remove" },
+	];
 	function createInput(id) {
 		const input = document.createElement("input");
 		input.classList.add("input");
@@ -239,19 +270,10 @@ function createCell(creature) {
 		return roll;
 	}
 
-	const items = [
-		{ id: "initiative", func: inputFunc, roll: true },
-		{ id: "name", func: nameSearch },
-		{ id: "hp", func: inputFunc, roll: true },
-		{ id: "ac", func: inputFunc },
-		{ id: "resistances", func: inputFunc },
-		{ id: "notes", func: inputFunc },
-		{ id: "copy" },
-		{ id: "remove" },
-	];
 	const cell = document.createElement("tr");
 	cell.classList.add("cell");
 	if (creature.hp <= 0 && creature.name !== "") cell.classList.add("dead");
+	const items = mobileView ? itemsMobile : itemsDesktop;
 	items.forEach((item) => {
 		const cellItem = document.createElement("th");
 		cellItem.classList.add("cell-item");
@@ -283,11 +305,13 @@ function createCell(creature) {
 			if (creature.creature) {
 				resists = getResistances(creature.creature);
 				Object.entries(resists).forEach(([res, key]) => {
-					const icon = document.createElement("img");
-					icon.src = iconTable[res];
+					const icon = document.createElement("div");
+					const img = document.createElement("img");
+					img.src = iconTable[res];
 					icon.classList.add("damage-icon");
 					icon.classList.add(key.value);
-					icon.title = `${res} ${key.hover ? key.hover : key.value}`;
+					icon.setAttribute("tooltip", `${res} ${key.hover ? key.hover : key.value}`);
+					icon.append(img);
 					cellItem.append(icon);
 				});
 			}
